@@ -5,8 +5,8 @@ import (
 	"log"
 	"net"
 
-	"google.golang.org/grpc"
 	"github.com/canhtoanptit/traefik-grpc-example/go-app/proto"
+	"google.golang.org/grpc"
 )
 
 type server struct {
@@ -18,7 +18,7 @@ func (s *server) SayHello(ctx context.Context, req *proto.HelloRequest) (*proto.
 }
 
 func main() {
-	listener, err := net.Listen("tcp", ":50051")
+	listener, err := net.Listen("tcp", ":8082")
 	if err != nil {
 		log.Fatalf("Failed to listen: %v", err)
 	}
@@ -26,7 +26,7 @@ func main() {
 	s := grpc.NewServer()
 	proto.RegisterGreeterServer(s, &server{})
 
-	log.Println("gRPC server running on :50051")
+	log.Println("gRPC server running on :8082")
 	if err := s.Serve(listener); err != nil {
 		log.Fatalf("Failed to serve: %v", err)
 	}

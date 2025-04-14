@@ -18,6 +18,13 @@ services:
     build:
       context: ./go-app
       dockerfile: Dockerfile
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.grpc-greeter.rule=PathPrefix(`/greeter`)
+      - traefik.http.routers.grpc-greeter.service=grpc-greeter
+      - traefik.http.routers.grpc-greeter.entrypoints=grpc
+      - traefik.http.services.grpc-greeter.loadbalancer.server.port=8082
+      - traefik.http.services.grpc-greeter.loadbalancer.server.scheme=h2c
     networks:
       - traefik-net
 
