@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option go_package = "github.com/yourusername/traefik-grpc-example/card-service/proto";
+option go_package = "github.com/canhtoanptit/traefik-grpc-example/card-service/proto";
 
 package modulecard;
 
