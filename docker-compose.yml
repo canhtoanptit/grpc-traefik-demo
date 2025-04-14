@@ -1,0 +1,44 @@
+version: "3.8"
+
+services:
+  traefik:
+    image: traefik:v3.1
+    ports:
+      - "80:80"
+      - "8080:8080"
+      - "8081:8081"
+    volumes:
+      - ./traefik/traefik.yml:/etc/traefik/traefik.yml
+      - ./traefik/dynamic.yml:/etc/traefik/dynamic.yml
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - traefik-net
+
+  go-app:
+    build:
+      context: ./go-app
+      dockerfile: Dockerfile
+    networks:
+      - traefik-net
+
+  card-service:
+    build:
+      context: ./card-service
+      dockerfile: Dockerfile
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.grpc-modulecard.rule=PathPrefix(`/modulecard`)
+      - traefik.http.routers.grpc-modulecard.service=grpc-modulecard
+      - traefik.http.routers.grpc-modulecard.entrypoints=grpc
+      - traefik.http.routers.web-modulecard.service=web-modulecard
+      - traefik.http.routers.web-modulecard.entrypoints=web
+      - traefik.http.services.grpc-modulecard.loadbalancer.server.port=8081
+      - traefik.http.services.grpc-modulecard.loadbalancer.server.scheme=h2c
+      - traefik.http.services.web-modulecard.loadbalancer.server.port=9090
+      - traefik.http.services.web-modulecard.loadbalancer.server.scheme=http
+    networks:
+      - traefik-net
+
+networks:
+  traefik-net:
+    driver: bridge

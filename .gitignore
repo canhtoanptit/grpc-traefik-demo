@@ -1,0 +1,46 @@
+# Binaries for programs and plugins
+*.exe
+*.dll
+*.so
+*.dylib
+*.test
+
+# Output of the go command
+bin/
+build/
+dist/
+
+# Dependency directories (vendor/)
+vendor/
+
+# Go workspace file
+go.work
+go.work.sum
+
+# Logs and debugging
+*.log
+*.out
+*.prof
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*.swn
+
+# Traefik-related files
+acme.json
+traefik.log
+
+# Docker-related files
+docker-compose.override.yml
+.env
+.env.*
+
+# Node.js dependencies (if applicable for frontend)
+node_modules/
+
+# Miscellaneous
+.DS_Store
+Thumbs.db
